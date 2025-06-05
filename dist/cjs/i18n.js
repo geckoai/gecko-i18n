@@ -56,9 +56,7 @@ var GeckoI18n = (function () {
         var service = container.get(I18nService);
         service.vm.subscribe(function (value) {
             var _a;
-            if (service.vm.current !== value) {
-                (_a = parent === null || parent === void 0 ? void 0 : parent.get(LazyService)) === null || _a === void 0 ? void 0 : _a.vm.next(Date.now());
-            }
+            (_a = parent === null || parent === void 0 ? void 0 : parent.get(LazyService)) === null || _a === void 0 ? void 0 : _a.vm.next(Date.now());
         });
         if (!(container === null || container === void 0 ? void 0 : container.isBound(GeckoI18n_1.default))) {
             var find = decorates.find(function (_a) {

@@ -1,7 +1,7 @@
 import {Container, injectable, ViewModel} from '@geckoai/gecko-core';
 import {GeckoI18n} from "./i18n";
 
-@injectable()
+@injectable("Singleton")
 export class I18nService {
   public vm = ViewModel.for<string>(localStorage.getItem('gecko-i18n-language') ?? window.navigator.language)
 

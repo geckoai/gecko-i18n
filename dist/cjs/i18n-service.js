@@ -22,7 +22,7 @@ var I18nService = (function () {
         this.container.bind(GeckoI18n.default).toConstantValue(lang);
     };
     I18nService = __decorate([
-        injectable(),
+        injectable("Singleton"),
         __metadata("design:paramtypes", [Container])
     ], I18nService);
     return I18nService;

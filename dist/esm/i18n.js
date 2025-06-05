@@ -22,9 +22,7 @@ let GeckoI18n = GeckoI18n_1 = class GeckoI18n {
         const decorates = classMirror.getAllDecorates(I18nDecorate);
         const service = container.get(I18nService);
         service.vm.subscribe((value) => {
-            if (service.vm.current !== value) {
-                parent?.get(LazyService)?.vm.next(Date.now());
-            }
+            parent?.get(LazyService)?.vm.next(Date.now());
         });
         if (!container?.isBound(GeckoI18n_1.default)) {
             const find = decorates.find(({ metadata }) => metadata.default);

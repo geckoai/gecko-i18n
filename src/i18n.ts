@@ -17,9 +17,7 @@ export class GeckoI18n {
     const service = container.get<I18nService>(I18nService);
 
     service.vm.subscribe((value) => {
-      if (service.vm.current !== value) {
-        parent?.get<LazyService>(LazyService)?.vm.next(Date.now());
-      }
+      parent?.get<LazyService>(LazyService)?.vm.next(Date.now());
     })
 
     if(!container?.isBound(GeckoI18n.default)) {
