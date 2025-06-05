@@ -1,6 +1,6 @@
 import { Constants, Container, GeckoModule } from '@geckoai/gecko-core';
 import { I18nDecorate, I18nLocale } from './decorators';
-import { useContainer } from '@geckoai/gecko-router';
+import {LazyService, useContainer} from '@geckoai/gecko-router';
 import { ClassMirror } from '@geckoai/class-mirror';
 import { I18nService } from './i18n-service';
 
@@ -13,8 +13,16 @@ export class GeckoI18n {
     const parent = container.get<Container>(Constants.parent);
     const classMirror = parent.get(ClassMirror);
     const decorates = classMirror.getAllDecorates(I18nDecorate);
+
+    const service = container.get<I18nService>(I18nService);
+
+    service.vm.subscribe((value) => {
+      if (service.vm.current !== value) {
+        parent?.get<LazyService>(LazyService)?.vm.next(Date.now());
+      }
+    })
+
     if(!container?.isBound(GeckoI18n.default)) {
-      const service = container.get<I18nService>(I18nService);
       const find = decorates.find(({ metadata }) => metadata.default);
       if (find) {
         service.setDefault(find.metadata.lang);

@@ -10,7 +10,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var GeckoI18n_1;
 import { Constants, Container, GeckoModule } from '@geckoai/gecko-core';
 import { I18nDecorate } from './decorators';
-import { useContainer } from '@geckoai/gecko-router';
+import { LazyService, useContainer } from '@geckoai/gecko-router';
 import { ClassMirror } from '@geckoai/class-mirror';
 import { I18nService } from './i18n-service';
 let GeckoI18n = GeckoI18n_1 = class GeckoI18n {
@@ -20,8 +20,13 @@ let GeckoI18n = GeckoI18n_1 = class GeckoI18n {
         const parent = container.get(Constants.parent);
         const classMirror = parent.get(ClassMirror);
         const decorates = classMirror.getAllDecorates(I18nDecorate);
+        const service = container.get(I18nService);
+        service.vm.subscribe((value) => {
+            if (service.vm.current !== value) {
+                parent?.get(LazyService)?.vm.next(Date.now());
+            }
+        });
         if (!container?.isBound(GeckoI18n_1.default)) {
-            const service = container.get(I18nService);
             const find = decorates.find(({ metadata }) => metadata.default);
             if (find) {
                 service.setDefault(find.metadata.lang);

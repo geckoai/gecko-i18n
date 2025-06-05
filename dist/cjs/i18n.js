@@ -45,7 +45,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 import { Constants, Container, GeckoModule } from '@geckoai/gecko-core';
 import { I18nDecorate } from './decorators';
-import { useContainer } from '@geckoai/gecko-router';
+import { LazyService, useContainer } from '@geckoai/gecko-router';
 import { ClassMirror } from '@geckoai/class-mirror';
 import { I18nService } from './i18n-service';
 var GeckoI18n = (function () {
@@ -53,8 +53,14 @@ var GeckoI18n = (function () {
         var parent = container.get(Constants.parent);
         var classMirror = parent.get(ClassMirror);
         var decorates = classMirror.getAllDecorates(I18nDecorate);
+        var service = container.get(I18nService);
+        service.vm.subscribe(function (value) {
+            var _a;
+            if (service.vm.current !== value) {
+                (_a = parent === null || parent === void 0 ? void 0 : parent.get(LazyService)) === null || _a === void 0 ? void 0 : _a.vm.next(Date.now());
+            }
+        });
         if (!(container === null || container === void 0 ? void 0 : container.isBound(GeckoI18n_1.default))) {
-            var service = container.get(I18nService);
             var find = decorates.find(function (_a) {
                 var metadata = _a.metadata;
                 return metadata.default;

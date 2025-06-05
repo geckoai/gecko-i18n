@@ -52,8 +52,14 @@ define(["require", "exports", "@geckoai/gecko-core", "./decorators", "@geckoai/g
             var parent = container.get(gecko_core_1.Constants.parent);
             var classMirror = parent.get(class_mirror_1.ClassMirror);
             var decorates = classMirror.getAllDecorates(decorators_1.I18nDecorate);
+            var service = container.get(i18n_service_1.I18nService);
+            service.vm.subscribe(function (value) {
+                var _a;
+                if (service.vm.current !== value) {
+                    (_a = parent === null || parent === void 0 ? void 0 : parent.get(gecko_router_1.LazyService)) === null || _a === void 0 ? void 0 : _a.vm.next(Date.now());
+                }
+            });
             if (!(container === null || container === void 0 ? void 0 : container.isBound(GeckoI18n_1.default))) {
-                var service = container.get(i18n_service_1.I18nService);
                 var find = decorates.find(function (_a) {
                     var metadata = _a.metadata;
                     return metadata.default;
