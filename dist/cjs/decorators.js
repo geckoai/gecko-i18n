@@ -74,7 +74,7 @@ export function I18nMap(locales) {
                     switch (_b.label) {
                         case 0:
                             service = c.get(I18nService);
-                            language = service.getLanguage();
+                            language = service.vm.current;
                             if (!(locale.lang === language)) return [3, 2];
                             _a = locale;
                             return [4, call()];

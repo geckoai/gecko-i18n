@@ -12,7 +12,7 @@ export function I18nMap(locales) {
         if (typeof call === 'function') {
             decorators.push(ClassMirror.createDecorator(new GeckoLazyTaskDecorate(async (c) => {
                 const service = c.get(I18nService);
-                const language = service.getLanguage();
+                const language = service.vm.current;
                 if (locale.lang === language) {
                     locale.locale = await call();
                 }

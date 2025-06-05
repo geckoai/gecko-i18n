@@ -1,10 +1,7 @@
-import { Container } from '@geckoai/gecko-core';
+import { Container, ViewModel } from '@geckoai/gecko-core';
 export declare class I18nService {
     private container;
-    private _subject;
-    private current;
+    vm: ViewModel<string>;
     constructor(container: Container);
-    getLanguage(): string;
-    setLanguage(language: string): void;
-    asState(): [string, (state: string) => void];
+    setDefault(lang: string): void;
 }

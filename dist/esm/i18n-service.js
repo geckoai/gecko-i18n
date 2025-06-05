@@ -7,39 +7,19 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-import { Container, injectable } from '@geckoai/gecko-core';
-import { Subject } from 'rxjs';
-import { useEffect, useState } from 'react';
-import { LazyService } from '@geckoai/gecko-router';
+import { Container, injectable, ViewModel } from '@geckoai/gecko-core';
+import { GeckoI18n } from "./i18n";
 let I18nService = class I18nService {
     container;
-    _subject = new Subject();
-    current = localStorage.getItem('gecko-i18n-language') ?? window.navigator.language;
+    vm = ViewModel.for(localStorage.getItem('gecko-i18n-language') ?? window.navigator.language);
     constructor(container) {
         this.container = container;
-        this._subject.subscribe((value) => {
-            this.current = value;
-            localStorage.setItem('gecko-i18n-language', value);
+        this.vm.subscribe((language) => {
+            localStorage.setItem('gecko-i18n-language', language);
         });
-        this._subject.next(this.current);
     }
-    getLanguage() {
-        return this.current;
-    }
-    setLanguage(language) {
-        if (language != this.current) {
-            const service = this.container.get(LazyService);
-            this._subject.next(language);
-            service.next();
-        }
-    }
-    asState() {
-        const [state, setState] = useState(this.current);
-        useEffect(() => {
-            const subscription = this._subject.subscribe(setState);
-            return () => subscription.unsubscribe();
-        }, [state, setState]);
-        return [state, this.setLanguage.bind(this)];
+    setDefault(lang) {
+        this.container.bind(GeckoI18n.default).toConstantValue(lang);
     }
 };
 I18nService = __decorate([

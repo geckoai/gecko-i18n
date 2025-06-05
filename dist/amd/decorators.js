@@ -74,7 +74,7 @@ define(["require", "exports", "@geckoai/class-mirror", "@geckoai/gecko-core", "@
                         switch (_b.label) {
                             case 0:
                                 service = c.get(i18n_service_1.I18nService);
-                                language = service.getLanguage();
+                                language = service.vm.current;
                                 if (!(locale.lang === language)) return [3, 2];
                                 _a = locale;
                                 return [4, call()];

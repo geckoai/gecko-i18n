@@ -13,11 +13,14 @@ export class GeckoI18n {
     const parent = container.get<Container>(Constants.parent);
     const classMirror = parent.get(ClassMirror);
     const decorates = classMirror.getAllDecorates(I18nDecorate);
-    const find = decorates.find(({ metadata }) => metadata.default);
-    if (find) {
-      parent?.bind(GeckoI18n.default).toConstantValue(find.metadata.lang);
-    } else if (decorates[0]) {
-      parent?.bind(GeckoI18n.default).toConstantValue(decorates[0].metadata.lang);
+    if(!container?.isBound(GeckoI18n.default)) {
+      const service = container.get<I18nService>(I18nService);
+      const find = decorates.find(({ metadata }) => metadata.default);
+      if (find) {
+        service.setDefault(find.metadata.lang);
+      } else if (decorates[0]) {
+        service.setDefault(decorates[0].metadata.lang);
+      }
     }
     decorates.map((decorate) => {
       parent?.bind(GeckoI18n.token).toDynamicValue(() => decorate.metadata.locale).whenNamed(decorate.metadata.lang);
@@ -38,9 +41,11 @@ export class GeckoI18n {
 
 export function useI18n(language?: string): I18nLocale | undefined {
   const container = useContainer();
+  const service = container.get<I18nService>(I18nService);
+  const [lang] = service.vm.asState();
   try {
     if (!language) {
-      return container?.get(GeckoI18n.token, { name: container.get(I18nService).getLanguage() });
+      return container?.get(GeckoI18n.token, { name: lang });
     }
     return container?.get(GeckoI18n.token, { name: language });
   } catch {

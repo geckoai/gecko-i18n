@@ -1,40 +1,17 @@
-import { Container, injectable } from '@geckoai/gecko-core';
-import { Subject } from 'rxjs';
-import { useEffect, useState } from 'react';
-import { LazyService } from '@geckoai/gecko-router';
+import {Container, injectable, ViewModel} from '@geckoai/gecko-core';
+import {GeckoI18n} from "./i18n";
 
 @injectable()
 export class I18nService {
-  private _subject = new Subject<string>();
-
-  private current: string = localStorage.getItem('gecko-i18n-language') ?? window.navigator.language
+  public vm = ViewModel.for<string>(localStorage.getItem('gecko-i18n-language') ?? window.navigator.language)
 
   constructor(private container: Container) {
-    this._subject.subscribe((value) => {
-      this.current = value;
-      localStorage.setItem('gecko-i18n-language', value);
-    });
-    this._subject.next(this.current);
+    this.vm.subscribe((language) => {
+      localStorage.setItem('gecko-i18n-language', language);
+    })
   }
 
-  public getLanguage() {
-    return this.current;
-  }
-
-  public setLanguage(language: string) {
-    if (language != this.current) {
-      const service = this.container.get<LazyService>(LazyService);
-      this._subject.next(language);
-      service.next();
-    }
-  }
-
-  public asState(): [string, (state: string) => void] {
-    const [state, setState] = useState(this.current);
-    useEffect(() => {
-      const subscription = this._subject.subscribe(setState);
-      return () => subscription.unsubscribe()
-    }, [state, setState]);
-    return [state, this.setLanguage.bind(this)];
+  public setDefault(lang: string) {
+    this.container.bind(GeckoI18n.default).toConstantValue(lang)
   }
 }

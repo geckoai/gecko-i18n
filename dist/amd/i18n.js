@@ -52,15 +52,18 @@ define(["require", "exports", "@geckoai/gecko-core", "./decorators", "@geckoai/g
             var parent = container.get(gecko_core_1.Constants.parent);
             var classMirror = parent.get(class_mirror_1.ClassMirror);
             var decorates = classMirror.getAllDecorates(decorators_1.I18nDecorate);
-            var find = decorates.find(function (_a) {
-                var metadata = _a.metadata;
-                return metadata.default;
-            });
-            if (find) {
-                parent === null || parent === void 0 ? void 0 : parent.bind(GeckoI18n_1.default).toConstantValue(find.metadata.lang);
-            }
-            else if (decorates[0]) {
-                parent === null || parent === void 0 ? void 0 : parent.bind(GeckoI18n_1.default).toConstantValue(decorates[0].metadata.lang);
+            if (!(container === null || container === void 0 ? void 0 : container.isBound(GeckoI18n_1.default))) {
+                var service = container.get(i18n_service_1.I18nService);
+                var find = decorates.find(function (_a) {
+                    var metadata = _a.metadata;
+                    return metadata.default;
+                });
+                if (find) {
+                    service.setDefault(find.metadata.lang);
+                }
+                else if (decorates[0]) {
+                    service.setDefault(decorates[0].metadata.lang);
+                }
             }
             decorates.map(function (decorate) {
                 parent === null || parent === void 0 ? void 0 : parent.bind(GeckoI18n_1.token).toDynamicValue(function () { return decorate.metadata.locale; }).whenNamed(decorate.metadata.lang);
@@ -99,9 +102,11 @@ define(["require", "exports", "@geckoai/gecko-core", "./decorators", "@geckoai/g
     exports.GeckoI18n = GeckoI18n;
     function useI18n(language) {
         var container = (0, gecko_router_1.useContainer)();
+        var service = container.get(i18n_service_1.I18nService);
+        var lang = service.vm.asState()[0];
         try {
             if (!language) {
-                return container === null || container === void 0 ? void 0 : container.get(GeckoI18n.token, { name: container.get(i18n_service_1.I18nService).getLanguage() });
+                return container === null || container === void 0 ? void 0 : container.get(GeckoI18n.token, { name: lang });
             }
             return container === null || container === void 0 ? void 0 : container.get(GeckoI18n.token, { name: language });
         }
