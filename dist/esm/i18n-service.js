@@ -23,7 +23,7 @@ let I18nService = class I18nService {
     }
 };
 I18nService = __decorate([
-    injectable(),
+    injectable("Singleton"),
     __metadata("design:paramtypes", [Container])
 ], I18nService);
 export { I18nService };

@@ -24,7 +24,7 @@ define(["require", "exports", "@geckoai/gecko-core", "./i18n"], function (requir
             this.container.bind(i18n_1.GeckoI18n.default).toConstantValue(lang);
         };
         I18nService = __decorate([
-            (0, gecko_core_1.injectable)(),
+            (0, gecko_core_1.injectable)("Singleton"),
             __metadata("design:paramtypes", [gecko_core_1.Container])
         ], I18nService);
         return I18nService;
