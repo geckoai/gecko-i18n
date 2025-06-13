@@ -21,16 +21,18 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-import { ClassDecorate, ClassMirror } from '@geckoai/class-mirror';
-import { ApplyClassDecorators } from '@geckoai/gecko-core';
+import {ClassDecorate, ClassMirror} from '@geckoai/class-mirror';
+import {ApplyClassDecorators} from '@geckoai/gecko-core';
 import {createElement, FC, ReactNode, Suspense} from "react";
 import {useService} from "@geckoai/platform-react";
 import {I18nService} from "./i18n-service";
-import  {Await} from 'react-router';
+import {Await} from 'react-router';
 
-export class I18nDecorate extends ClassDecorate<I18nDoc | I18nLazyDoc> {}
-export class I18nElementDecorate extends ClassDecorate<FC<{children: ReactNode}>> {}
+export class I18nDecorate extends ClassDecorate<I18nDoc | I18nLazyDoc> {
+}
 
+export class I18nElementDecorate extends ClassDecorate<FC<{ children: ReactNode }>> {
+}
 
 
 /**
@@ -45,18 +47,19 @@ export function I18nMap(locales: Array<I18nDoc | I18nLazyDoc>): ClassDecorator {
       ClassMirror.createDecorator(new I18nDecorate(locale))
     );
   });
-  if(locales.find(it => typeof it.locale === 'function')){
+  if (locales.find(it => typeof it.locale === 'function')) {
     decorators.push(
-      ClassMirror.createDecorator(new I18nElementDecorate((({children}: {children: ReactNode}) => {
+      ClassMirror.createDecorator(new I18nElementDecorate((({children}: { children: ReactNode }) => {
         const service = useService<I18nService>(I18nService);
         service.config.current.asState();
 
         return createElement(Suspense, {
-          fallback: createElement("div", {
+          fallback: service.config.Fallback ? createElement(service.config.Fallback) : createElement("div", {
             children: 'Loading...'
           }),
           children: createElement(Await, {
             resolve: service.load(),
+            errorElement: service.config?.ErrorBoundary && createElement(service.config.ErrorBoundary),
             children
           })
         })

@@ -25,6 +25,7 @@
 import {ConstantValueProvider, Container, FactoryProvider, inject, injectable} from "@geckoai/gecko-core";
 import {ViewModel} from "@geckoai/platform-react";
 import {ComponentType} from "react";
+import {ResolutionContext} from "inversify";
 
 const DEFAULT = Symbol.for("I18nGlobalService.default");
 
@@ -39,7 +40,7 @@ export class I18nGlobalService {
     private container: Container, @inject(DEFAULT)
     public readonly DEFAULT: string,
     public readonly ErrorBoundary?: ComponentType,
-    public readonly Loading?: ComponentType) {
+    public readonly Fallback?: ComponentType) {
     this.current.subscribe((language) => {
       localStorage.setItem('gecko-i18n-language', language);
     })
@@ -54,9 +55,26 @@ export class I18nGlobalService {
     return ConstantValueProvider.create(DEFAULT, defaultLanguage)
   }
 
-  public static for(defaultLanguage: string, Loading?: ComponentType, ErrorBoundary?: ComponentType) {
+  /**
+   * For static
+   * @param defaultLanguage
+   * @param Fallback
+   * @param ErrorBoundary
+   */
+  public static for(defaultLanguage: string, Fallback?: ComponentType<any>, ErrorBoundary?: ComponentType<any>) {
     return FactoryProvider.create(I18nGlobalService, (context) => {
-      return context && new I18nGlobalService(context?.get(Container), defaultLanguage, Loading, ErrorBoundary);
+      return context && new I18nGlobalService(context?.get(Container), defaultLanguage, Fallback, ErrorBoundary);
+    });
+  }
+
+  /**
+   * From context create
+   * @param callback
+   */
+  public static from(callback: (context?: ResolutionContext) => { language: string; Fallback?: ComponentType<any>; ErrorBoundary?: ComponentType<any>; }) {
+    FactoryProvider.create(I18nGlobalService, (context) => {
+      const {language, Fallback, ErrorBoundary} = callback(context);
+      return context && new I18nGlobalService(context?.get(Container), language, Fallback, ErrorBoundary);
     });
   }
 }

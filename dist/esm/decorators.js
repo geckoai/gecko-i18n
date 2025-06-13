@@ -42,15 +42,17 @@ export function I18nMap(locales) {
     });
     if (locales.find(function (it) { return typeof it.locale === 'function'; })) {
         decorators.push(ClassMirror.createDecorator(new I18nElementDecorate((function (_a) {
+            var _b;
             var children = _a.children;
             var service = useService(I18nService);
             service.config.current.asState();
             return createElement(Suspense, {
-                fallback: createElement("div", {
+                fallback: service.config.Fallback ? createElement(service.config.Fallback) : createElement("div", {
                     children: 'Loading...'
                 }),
                 children: createElement(Await, {
                     resolve: service.load(),
+                    errorElement: ((_b = service.config) === null || _b === void 0 ? void 0 : _b.ErrorBoundary) && createElement(service.config.ErrorBoundary),
                     children: children
                 })
             });

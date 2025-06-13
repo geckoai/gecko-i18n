@@ -45,15 +45,17 @@ function I18nMap(locales) {
     });
     if (locales.find(function (it) { return typeof it.locale === 'function'; })) {
         decorators.push(class_mirror_1.ClassMirror.createDecorator(new I18nElementDecorate((function (_a) {
+            var _b;
             var children = _a.children;
             var service = (0, platform_react_1.useService)(i18n_service_1.I18nService);
             service.config.current.asState();
             return (0, react_1.createElement)(react_1.Suspense, {
-                fallback: (0, react_1.createElement)("div", {
+                fallback: service.config.Fallback ? (0, react_1.createElement)(service.config.Fallback) : (0, react_1.createElement)("div", {
                     children: 'Loading...'
                 }),
                 children: (0, react_1.createElement)(react_router_1.Await, {
                     resolve: service.load(),
+                    errorElement: ((_b = service.config) === null || _b === void 0 ? void 0 : _b.ErrorBoundary) && (0, react_1.createElement)(service.config.ErrorBoundary),
                     children: children
                 })
             });

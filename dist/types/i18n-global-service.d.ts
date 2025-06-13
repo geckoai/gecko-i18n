@@ -24,21 +24,37 @@
 import { ConstantValueProvider, Container, FactoryProvider } from "@geckoai/gecko-core";
 import { ViewModel } from "@geckoai/platform-react";
 import { ComponentType } from "react";
+import { ResolutionContext } from "inversify";
 export declare class I18nGlobalService {
     private container;
     readonly DEFAULT: string;
     readonly ErrorBoundary?: ComponentType;
-    readonly Loading?: ComponentType;
+    readonly Fallback?: ComponentType;
     /**
      * 当前语言包
      */
     current: ViewModel<string>;
-    constructor(container: Container, DEFAULT: string, ErrorBoundary?: ComponentType, Loading?: ComponentType);
+    constructor(container: Container, DEFAULT: string, ErrorBoundary?: ComponentType, Fallback?: ComponentType);
     /**
      * 提供默认常量用于注入默认语言
      * @param defaultLanguage
      * @constructor
      */
     static DefaultProvide(defaultLanguage: string): ConstantValueProvider<string>;
-    static for(defaultLanguage: string, Loading?: ComponentType, ErrorBoundary?: ComponentType): FactoryProvider<I18nGlobalService>;
+    /**
+     * For static
+     * @param defaultLanguage
+     * @param Fallback
+     * @param ErrorBoundary
+     */
+    static for(defaultLanguage: string, Fallback?: ComponentType<any>, ErrorBoundary?: ComponentType<any>): FactoryProvider<I18nGlobalService>;
+    /**
+     * From context create
+     * @param callback
+     */
+    static from(callback: (context?: ResolutionContext) => {
+        language: string;
+        Fallback?: ComponentType<any>;
+        ErrorBoundary?: ComponentType<any>;
+    }): void;
 }

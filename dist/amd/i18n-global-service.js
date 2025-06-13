@@ -16,12 +16,12 @@ define(["require", "exports", "@geckoai/gecko-core", "@geckoai/platform-react"],
     exports.I18nGlobalService = void 0;
     var DEFAULT = Symbol.for("I18nGlobalService.default");
     var I18nGlobalService = (function () {
-        function I18nGlobalService(container, DEFAULT, ErrorBoundary, Loading) {
+        function I18nGlobalService(container, DEFAULT, ErrorBoundary, Fallback) {
             var _a;
             this.container = container;
             this.DEFAULT = DEFAULT;
             this.ErrorBoundary = ErrorBoundary;
-            this.Loading = Loading;
+            this.Fallback = Fallback;
             this.current = platform_react_1.ViewModel.for((_a = localStorage.getItem('gecko-i18n-language')) !== null && _a !== void 0 ? _a : window.navigator.language);
             this.current.subscribe(function (language) {
                 localStorage.setItem('gecko-i18n-language', language);
@@ -31,9 +31,15 @@ define(["require", "exports", "@geckoai/gecko-core", "@geckoai/platform-react"],
         I18nGlobalService.DefaultProvide = function (defaultLanguage) {
             return gecko_core_1.ConstantValueProvider.create(DEFAULT, defaultLanguage);
         };
-        I18nGlobalService.for = function (defaultLanguage, Loading, ErrorBoundary) {
+        I18nGlobalService.for = function (defaultLanguage, Fallback, ErrorBoundary) {
             return gecko_core_1.FactoryProvider.create(I18nGlobalService_1, function (context) {
-                return context && new I18nGlobalService_1(context === null || context === void 0 ? void 0 : context.get(gecko_core_1.Container), defaultLanguage, Loading, ErrorBoundary);
+                return context && new I18nGlobalService_1(context === null || context === void 0 ? void 0 : context.get(gecko_core_1.Container), defaultLanguage, Fallback, ErrorBoundary);
+            });
+        };
+        I18nGlobalService.from = function (callback) {
+            gecko_core_1.FactoryProvider.create(I18nGlobalService_1, function (context) {
+                var _a = callback(context), language = _a.language, Fallback = _a.Fallback, ErrorBoundary = _a.ErrorBoundary;
+                return context && new I18nGlobalService_1(context === null || context === void 0 ? void 0 : context.get(gecko_core_1.Container), language, Fallback, ErrorBoundary);
             });
         };
         var I18nGlobalService_1;
