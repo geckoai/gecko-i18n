@@ -28,13 +28,13 @@ import { ResolutionContext } from "inversify";
 export declare class I18nGlobalService {
     private container;
     readonly DEFAULT: string;
-    readonly ErrorBoundary?: ComponentType;
     readonly Fallback?: ComponentType;
+    readonly ErrorBoundary?: ComponentType;
     /**
      * 当前语言包
      */
     current: ViewModel<string>;
-    constructor(container: Container, DEFAULT: string, ErrorBoundary?: ComponentType, Fallback?: ComponentType);
+    constructor(container: Container, DEFAULT: string, Fallback?: ComponentType, ErrorBoundary?: ComponentType);
     /**
      * 提供默认常量用于注入默认语言
      * @param defaultLanguage

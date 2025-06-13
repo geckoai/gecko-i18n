@@ -14,12 +14,12 @@ import { ConstantValueProvider, Container, FactoryProvider, inject, injectable }
 import { ViewModel } from "@geckoai/platform-react";
 var DEFAULT = Symbol.for("I18nGlobalService.default");
 var I18nGlobalService = (function () {
-    function I18nGlobalService(container, DEFAULT, ErrorBoundary, Fallback) {
+    function I18nGlobalService(container, DEFAULT, Fallback, ErrorBoundary) {
         var _a;
         this.container = container;
         this.DEFAULT = DEFAULT;
-        this.ErrorBoundary = ErrorBoundary;
         this.Fallback = Fallback;
+        this.ErrorBoundary = ErrorBoundary;
         this.current = ViewModel.for((_a = localStorage.getItem('gecko-i18n-language')) !== null && _a !== void 0 ? _a : window.navigator.language);
         this.current.subscribe(function (language) {
             localStorage.setItem('gecko-i18n-language', language);
