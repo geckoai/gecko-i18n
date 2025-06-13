@@ -39,8 +39,9 @@ export class I18nGlobalService {
   constructor(
     private container: Container, @inject(DEFAULT)
     public readonly DEFAULT: string,
+    public readonly Fallback?: ComponentType,
     public readonly ErrorBoundary?: ComponentType,
-    public readonly Fallback?: ComponentType) {
+  ) {
     this.current.subscribe((language) => {
       localStorage.setItem('gecko-i18n-language', language);
     })
@@ -71,7 +72,11 @@ export class I18nGlobalService {
    * From context create
    * @param callback
    */
-  public static from(callback: (context?: ResolutionContext) => { language: string; Fallback?: ComponentType<any>; ErrorBoundary?: ComponentType<any>; }) {
+  public static from(callback: (context?: ResolutionContext) => {
+    language: string;
+    Fallback?: ComponentType<any>;
+    ErrorBoundary?: ComponentType<any>;
+  }) {
     FactoryProvider.create(I18nGlobalService, (context) => {
       const {language, Fallback, ErrorBoundary} = callback(context);
       return context && new I18nGlobalService(context?.get(Container), language, Fallback, ErrorBoundary);
