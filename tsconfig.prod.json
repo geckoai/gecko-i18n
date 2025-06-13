@@ -10,5 +10,6 @@
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
     "noEmit": false
-  }
+  },
+  "exclude": ["docs", "dist", "eslint.config.mjs"]
 }

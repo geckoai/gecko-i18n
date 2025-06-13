@@ -12,10 +12,11 @@ var __createBinding = (this && this.__createBinding) || (Object.create ? (functi
 var __exportStar = (this && this.__exportStar) || function(m, exports) {
     for (var p in m) if (p !== "default" && !Object.prototype.hasOwnProperty.call(exports, p)) __createBinding(exports, m, p);
 };
-define(["require", "exports", "./decorators", "./i18n", "./i18n-service"], function (require, exports, decorators_1, i18n_1, i18n_service_1) {
+define(["require", "exports", "./decorators", "./i18n-react", "./i18n-service", "./i18n-global-service"], function (require, exports, decorators_1, i18n_react_1, i18n_service_1, i18n_global_service_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     __exportStar(decorators_1, exports);
-    __exportStar(i18n_1, exports);
+    __exportStar(i18n_react_1, exports);
     __exportStar(i18n_service_1, exports);
+    __exportStar(i18n_global_service_1, exports);
 });
