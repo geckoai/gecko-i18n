@@ -1,3 +1,4 @@
+"use strict";
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -43,25 +44,27 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
-import { Constants, Container, injectable } from '@geckoai/gecko-core';
-import { ClassMirror } from "@geckoai/class-mirror";
-import { I18nDecorate } from "./decorators";
-import { ViewModel } from "@geckoai/platform-react";
-import { I18nGlobalService } from "./i18n-global-service";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.I18nService = void 0;
+var gecko_core_1 = require("@geckoai/gecko-core");
+var class_mirror_1 = require("@geckoai/class-mirror");
+var decorators_1 = require("./decorators");
+var platform_react_1 = require("@geckoai/platform-react");
+var i18n_global_service_1 = require("./i18n-global-service");
 var I18nService = (function () {
     function I18nService(container, config) {
         var _this = this;
         this.config = config;
-        this.all = ViewModel.for(new Map());
-        var parent = container.get(Constants.parent);
-        var classMirror = parent.get(ClassMirror);
-        var decorates = classMirror.getAllDecorates(I18nDecorate);
+        this.all = platform_react_1.ViewModel.for(new Map());
+        var parent = container.get(gecko_core_1.Constants.parent);
+        var classMirror = parent.get(class_mirror_1.ClassMirror);
+        var decorates = classMirror.getAllDecorates(decorators_1.I18nDecorate);
         var map = new Map();
         decorates.forEach(function (decorate) {
             map.set(decorate.metadata.lang, decorate.metadata.locale);
         });
         this.all.next(map);
-        this.locales = ViewModel.for(I18nService_1.createProxy(this.all.value, config));
+        this.locales = platform_react_1.ViewModel.for(I18nService_1.createProxy(this.all.value, config));
         var update = function () {
             _this.locales.next(I18nService_1.createProxy(_this.all.value, config));
         };
@@ -133,9 +136,9 @@ var I18nService = (function () {
     };
     var I18nService_1;
     I18nService = I18nService_1 = __decorate([
-        injectable("Singleton"),
-        __metadata("design:paramtypes", [Container, I18nGlobalService])
+        (0, gecko_core_1.injectable)("Singleton"),
+        __metadata("design:paramtypes", [gecko_core_1.Container, i18n_global_service_1.I18nGlobalService])
     ], I18nService);
     return I18nService;
 }());
-export { I18nService };
+exports.I18nService = I18nService;

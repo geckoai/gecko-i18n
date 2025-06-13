@@ -4,6 +4,7 @@
   "description": "",
   "main": "dist/cjs",
   "types": "dist/types",
+  "module": "dist/esm",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build:clean": "rimraf dist && rimraf docs",
