@@ -59,8 +59,8 @@ export class I18nService {
     return new Proxy(target, {
       get(target, prop: string): any {
         const keys = target.keys();
-        const _default = target.get(config.DEFAULT)
-        const _current = target.get(config.current.value);
+        const _default = target.get(config.DEFAULT) ?? {}
+        const _current = target.get(config.current.value) ?? {};
 
         if (I18nService.__isObject(_default[prop])) {
           const map = new Map();

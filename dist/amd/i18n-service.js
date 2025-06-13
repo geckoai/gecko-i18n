@@ -71,10 +71,10 @@ define(["require", "exports", "@geckoai/gecko-core", "@geckoai/class-mirror", ".
         I18nService.createProxy = function (target, config) {
             return new Proxy(target, {
                 get: function (target, prop) {
-                    var _a;
+                    var _a, _b, _c;
                     var keys = target.keys();
-                    var _default = target.get(config.DEFAULT);
-                    var _current = target.get(config.current.value);
+                    var _default = (_a = target.get(config.DEFAULT)) !== null && _a !== void 0 ? _a : {};
+                    var _current = (_b = target.get(config.current.value)) !== null && _b !== void 0 ? _b : {};
                     if (I18nService_1.__isObject(_default[prop])) {
                         var map_1 = new Map();
                         Array.from(keys).forEach(function (key) {
@@ -83,7 +83,7 @@ define(["require", "exports", "@geckoai/gecko-core", "@geckoai/class-mirror", ".
                         });
                         return I18nService_1.createProxy(map_1, config);
                     }
-                    return (_a = _current[prop]) !== null && _a !== void 0 ? _a : _default[prop];
+                    return (_c = _current[prop]) !== null && _c !== void 0 ? _c : _default[prop];
                 }
             });
         };
