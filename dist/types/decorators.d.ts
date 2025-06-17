@@ -22,12 +22,10 @@
  * SOFTWARE.
  */
 import { ClassDecorate } from '@geckoai/class-mirror';
-import { FC, ReactNode } from "react";
+import { ComponentType } from "react";
 export declare class I18nDecorate extends ClassDecorate<I18nDoc | I18nLazyDoc> {
 }
-export declare class I18nElementDecorate extends ClassDecorate<FC<{
-    children: ReactNode;
-}>> {
+export declare class I18nElementDecorate extends ClassDecorate<ComponentType<any>> {
 }
 /**
  * Decorator metadata for i18n

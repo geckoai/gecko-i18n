@@ -51,20 +51,37 @@ var platform_react_1 = require("@geckoai/platform-react");
 var decorators_1 = require("./decorators");
 var i18n_service_1 = require("./i18n-service");
 var class_mirror_1 = require("@geckoai/class-mirror");
+var react_1 = require("react");
 var I18nReact = (function () {
     function I18nReact(container) {
-        var _a;
         var parent = container.get(gecko_core_1.Constants.parent);
         var classMirror = parent.get(class_mirror_1.ClassMirror);
         var decorates = classMirror.getAllDecorates(decorators_1.I18nElementDecorate);
-        var isBound = parent.isBound(platform_react_1.ReactRouter.middleElements);
+        var isBound = parent.isBound(platform_react_1.ReactRouter.middleElement);
+        var filters = decorates.map(function (it) { return it.metadata; }).filter(Boolean);
         if (isBound) {
-            parent === null || parent === void 0 ? void 0 : (_a = parent.get(platform_react_1.ReactRouter.middleElements)).push.apply(_a, decorates.map(function (it) { return it.metadata; }));
+            var old_1 = parent === null || parent === void 0 ? void 0 : parent.get(platform_react_1.ReactRouter.middleElement);
+            parent === null || parent === void 0 ? void 0 : parent.unbindSync(platform_react_1.ReactRouter.middleElement);
+            parent === null || parent === void 0 ? void 0 : parent.bind(platform_react_1.ReactRouter.middleElement).toConstantValue(function (_a) {
+                var children = _a.children;
+                return I18nReact_1.toElement(filters, (0, react_1.createElement)(old_1, {
+                    children: children
+                }));
+            });
         }
         else {
-            parent === null || parent === void 0 ? void 0 : parent.bind(platform_react_1.ReactRouter.middleElements).toConstantValue(decorates.map(function (it) { return it.metadata; }));
+            parent === null || parent === void 0 ? void 0 : parent.bind(platform_react_1.ReactRouter.middleElement).toConstantValue(function (_a) {
+                var children = _a.children;
+                return I18nReact_1.toElement(filters, children);
+            });
         }
     }
+    I18nReact_1 = I18nReact;
+    I18nReact.toElement = function (elements, children) {
+        return elements.reverse().reduce(function (c, a) {
+            return (0, react_1.createElement)(a, { children: c });
+        }, children);
+    };
     I18nReact.loader = function (url) {
         var _this = this;
         return function () { return __awaiter(_this, void 0, void 0, function () {
@@ -85,7 +102,8 @@ var I18nReact = (function () {
             });
         }); };
     };
-    I18nReact = __decorate([
+    var I18nReact_1;
+    I18nReact = I18nReact_1 = __decorate([
         (0, gecko_core_1.Module)({
             providers: [i18n_service_1.I18nService],
             exports: [i18n_service_1.I18nService]

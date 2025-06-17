@@ -24,6 +24,7 @@
 import { Container } from '@geckoai/gecko-core';
 import { I18nLocale } from './decorators';
 export declare class I18nReact {
+    private static toElement;
     constructor(container: Container);
     static loader<T = I18nLocale>(url: string): () => Promise<T>;
 }

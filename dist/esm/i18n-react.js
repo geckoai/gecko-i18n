@@ -48,20 +48,37 @@ import { ReactRouter, useService } from '@geckoai/platform-react';
 import { I18nElementDecorate } from './decorators';
 import { I18nService } from "./i18n-service";
 import { ClassMirror } from "@geckoai/class-mirror";
+import { createElement } from "react";
 var I18nReact = (function () {
     function I18nReact(container) {
-        var _a;
         var parent = container.get(Constants.parent);
         var classMirror = parent.get(ClassMirror);
         var decorates = classMirror.getAllDecorates(I18nElementDecorate);
-        var isBound = parent.isBound(ReactRouter.middleElements);
+        var isBound = parent.isBound(ReactRouter.middleElement);
+        var filters = decorates.map(function (it) { return it.metadata; }).filter(Boolean);
         if (isBound) {
-            parent === null || parent === void 0 ? void 0 : (_a = parent.get(ReactRouter.middleElements)).push.apply(_a, decorates.map(function (it) { return it.metadata; }));
+            var old_1 = parent === null || parent === void 0 ? void 0 : parent.get(ReactRouter.middleElement);
+            parent === null || parent === void 0 ? void 0 : parent.unbindSync(ReactRouter.middleElement);
+            parent === null || parent === void 0 ? void 0 : parent.bind(ReactRouter.middleElement).toConstantValue(function (_a) {
+                var children = _a.children;
+                return I18nReact_1.toElement(filters, createElement(old_1, {
+                    children: children
+                }));
+            });
         }
         else {
-            parent === null || parent === void 0 ? void 0 : parent.bind(ReactRouter.middleElements).toConstantValue(decorates.map(function (it) { return it.metadata; }));
+            parent === null || parent === void 0 ? void 0 : parent.bind(ReactRouter.middleElement).toConstantValue(function (_a) {
+                var children = _a.children;
+                return I18nReact_1.toElement(filters, children);
+            });
         }
     }
+    I18nReact_1 = I18nReact;
+    I18nReact.toElement = function (elements, children) {
+        return elements.reverse().reduce(function (c, a) {
+            return createElement(a, { children: c });
+        }, children);
+    };
     I18nReact.loader = function (url) {
         var _this = this;
         return function () { return __awaiter(_this, void 0, void 0, function () {
@@ -82,7 +99,8 @@ var I18nReact = (function () {
             });
         }); };
     };
-    I18nReact = __decorate([
+    var I18nReact_1;
+    I18nReact = I18nReact_1 = __decorate([
         Module({
             providers: [I18nService],
             exports: [I18nService]
