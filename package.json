@@ -1,6 +1,6 @@
 {
   "name": "@geckoai/i18n-react",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "I18n for react",
   "main": "dist/cjs",
   "types": "dist/types",
