@@ -27,21 +27,34 @@ import {ReactRouter, useService} from '@geckoai/platform-react';
 import {I18nElementDecorate, I18nLocale} from './decorators';
 import {I18nService} from "./i18n-service";
 import {ClassMirror} from "@geckoai/class-mirror";
+import {ComponentType, createElement, FC, PropsWithChildren, ReactNode} from "react";
 
 @Module({
   providers: [I18nService],
   exports: [I18nService]
 })
 export class I18nReact {
+  private static toElement(elements: ComponentType<PropsWithChildren>[], children: ReactNode) {
+    return elements.reverse().reduce((c, a) => {
+      return createElement(a, {children: c})
+    }, children)
+  }
+
   constructor(container: Container) {
     const parent = container.get<Container>(Constants.parent);
     const classMirror = parent.get(ClassMirror);
     const decorates = classMirror.getAllDecorates(I18nElementDecorate);
-    const isBound = parent.isBound(ReactRouter.middleElements);
+    const isBound = parent.isBound(ReactRouter.middleElement);
+    const filters = decorates.map(it => it.metadata).filter(Boolean);
+    // 套娃
     if (isBound) {
-      parent?.get<unknown[]>(ReactRouter.middleElements).push(...decorates.map(it => it.metadata));
+      const old = parent?.get<FC<PropsWithChildren>>(ReactRouter.middleElement);
+      parent?.unbindSync(ReactRouter.middleElement);
+      parent?.bind(ReactRouter.middleElement).toConstantValue(({children}: PropsWithChildren) => I18nReact.toElement(filters, createElement(old, {
+        children
+      })))
     } else {
-      parent?.bind(ReactRouter.middleElements).toConstantValue(decorates.map(it => it.metadata))
+      parent?.bind(ReactRouter.middleElement).toConstantValue(({children}: PropsWithChildren) => I18nReact.toElement(filters, children))
     }
   }
 

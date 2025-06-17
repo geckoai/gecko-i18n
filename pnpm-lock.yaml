@@ -15,8 +15,8 @@ importers:
         specifier: ^1.0.0
         version: 1.0.0(reflect-metadata@0.2.2)(typescript@4.9.5)
       '@geckoai/platform-react':
-        specifier: ^1.0.0
-        version: 1.0.0(react@19.1.0)(reflect-metadata@0.2.2)(typescript@4.9.5)
+        specifier: ^1.0.1
+        version: 1.0.1(react@19.1.0)(reflect-metadata@0.2.2)(typescript@4.9.5)
       lodash.merge:
         specifier: ^4.6.2
         version: 4.6.2
@@ -44,8 +44,8 @@ packages:
     peerDependencies:
       typescript: ^3.2.1 || ^4
 
-  '@geckoai/platform-react@1.0.0':
-    resolution: {integrity: sha512-oMo98rO7USb09tK5hFle3PfsLFhO82yFS+s+lBQeO3jhiIDJWdHTCynTdXfdd+5X1V6uhJZIR+LPOTUl7CINOg==}
+  '@geckoai/platform-react@1.0.1':
+    resolution: {integrity: sha512-voHnkseN/OGTDMhAvJqIOcfJJS6Kpx3utFu1J4Rbi7RE8o0r6oGlmM+KAza/SWqNI4tqgU/8wHhDkquAcCsyyA==}
     peerDependencies:
       react: '>= 16'
       typescript: ^3.2.1 || ^4
@@ -240,7 +240,7 @@ snapshots:
     transitivePeerDependencies:
       - reflect-metadata
 
-  '@geckoai/platform-react@1.0.0(react@19.1.0)(reflect-metadata@0.2.2)(typescript@4.9.5)':
+  '@geckoai/platform-react@1.0.1(react@19.1.0)(reflect-metadata@0.2.2)(typescript@4.9.5)':
     dependencies:
       '@geckoai/class-mirror': 1.0.2
       '@geckoai/gecko-core': 1.0.0(reflect-metadata@0.2.2)(typescript@4.9.5)

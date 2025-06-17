@@ -23,7 +23,7 @@
  */
 import {ClassDecorate, ClassMirror} from '@geckoai/class-mirror';
 import {ApplyClassDecorators} from '@geckoai/gecko-core';
-import {createElement, FC, ReactNode, Suspense} from "react";
+import {ComponentType, createElement, FC, ReactNode, Suspense} from "react";
 import {useService} from "@geckoai/platform-react";
 import {I18nService} from "./i18n-service";
 import {Await} from 'react-router';
@@ -31,7 +31,7 @@ import {Await} from 'react-router';
 export class I18nDecorate extends ClassDecorate<I18nDoc | I18nLazyDoc> {
 }
 
-export class I18nElementDecorate extends ClassDecorate<FC<{ children: ReactNode }>> {
+export class I18nElementDecorate extends ClassDecorate<ComponentType<any>> {
 }
 
 
