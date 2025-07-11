@@ -46,7 +46,7 @@ export class I18nReact {
     const decorates = classMirror.getAllDecorates(I18nElementDecorate);
     const isBound = parent.isBound(ReactRouter.middleElement);
     const filters = decorates.map(it => it.metadata).filter(Boolean);
-    // 套娃
+
     if (isBound) {
       const old = parent?.get<FC<PropsWithChildren>>(ReactRouter.middleElement);
       parent?.unbindSync(ReactRouter.middleElement);

@@ -28,7 +28,7 @@ import {I18nDecorate, I18nLazyLoader, I18nLocale} from "./decorators";
 import {ViewModel} from "@geckoai/platform-react";
 import {I18nGlobalService} from "./i18n-global-service";
 
-@injectable("Singleton")
+@injectable()
 export class I18nService {
   public all: ViewModel<Map<string, I18nLazyLoader | I18nLocale>> = ViewModel.for(new Map());
 

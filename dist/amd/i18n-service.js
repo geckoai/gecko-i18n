@@ -132,7 +132,7 @@ define(["require", "exports", "@geckoai/gecko-core", "@geckoai/class-mirror", ".
         };
         var I18nService_1;
         I18nService = I18nService_1 = __decorate([
-            (0, gecko_core_1.injectable)("Singleton"),
+            (0, gecko_core_1.injectable)(),
             __metadata("design:paramtypes", [gecko_core_1.Container, i18n_global_service_1.I18nGlobalService])
         ], I18nService);
         return I18nService;

@@ -133,7 +133,7 @@ var I18nService = (function () {
     };
     var I18nService_1;
     I18nService = I18nService_1 = __decorate([
-        injectable("Singleton"),
+        injectable(),
         __metadata("design:paramtypes", [Container, I18nGlobalService])
     ], I18nService);
     return I18nService;

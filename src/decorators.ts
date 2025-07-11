@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 import {ClassDecorate, ClassMirror} from '@geckoai/class-mirror';
-import {ApplyClassDecorators} from '@geckoai/gecko-core';
+import { ApplyClassDecorators, Container } from '@geckoai/gecko-core';
 import {ComponentType, createElement, FC, ReactNode, Suspense} from "react";
 import {useService} from "@geckoai/platform-react";
 import {I18nService} from "./i18n-service";
@@ -50,6 +50,7 @@ export function I18nMap(locales: Array<I18nDoc | I18nLazyDoc>): ClassDecorator {
   if (locales.find(it => typeof it.locale === 'function')) {
     decorators.push(
       ClassMirror.createDecorator(new I18nElementDecorate((({children}: { children: ReactNode }) => {
+        console.log(useService(Container));
         const service = useService<I18nService>(I18nService);
         service.config.current.asState();
 
