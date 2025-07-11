@@ -47,6 +47,7 @@ function I18nMap(locales) {
         decorators.push(class_mirror_1.ClassMirror.createDecorator(new I18nElementDecorate((function (_a) {
             var _b;
             var children = _a.children;
+            console.log((0, platform_react_1.useService)(gecko_core_1.Container));
             var service = (0, platform_react_1.useService)(i18n_service_1.I18nService);
             service.config.current.asState();
             return (0, react_1.createElement)(react_1.Suspense, {

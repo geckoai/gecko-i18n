@@ -14,7 +14,7 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 import { ClassDecorate, ClassMirror } from '@geckoai/class-mirror';
-import { ApplyClassDecorators } from '@geckoai/gecko-core';
+import { ApplyClassDecorators, Container } from '@geckoai/gecko-core';
 import { createElement, Suspense } from "react";
 import { useService } from "@geckoai/platform-react";
 import { I18nService } from "./i18n-service";
@@ -44,6 +44,7 @@ export function I18nMap(locales) {
         decorators.push(ClassMirror.createDecorator(new I18nElementDecorate((function (_a) {
             var _b;
             var children = _a.children;
+            console.log(useService(Container));
             var service = useService(I18nService);
             service.config.current.asState();
             return createElement(Suspense, {
